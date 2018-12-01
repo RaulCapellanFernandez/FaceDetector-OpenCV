@@ -21,5 +21,19 @@ def detect(gray, imagen):
         #El tercer argumento son las coordenadas de la parte inferior izquierda
         #del rectangulo
         #2 es el ancho de la linea del rectangulo
-        cv2.rectangle(frame,(x,y),(x+w, y+h), (255,0,0), 2)
+        #imprime los rectangulos en la imagen original del video
+        cv2.rectangle(imagen,(x,y),(x+w, y+h), (255,0,0), 2)
+        #La zona del rectangulo para detectar los ojos para las dos imagenes
+        #Coge la region de los ojos
+        roi_gray = gray[y:y+h, x:x+w]
+        roi_color = imagen[y:y+h, x:x+w]
+        
+        eyes = ojo_cascade.detectMultiScale(roi_gray, 1.1, 3)
+        
+        for(ex,ey,ew,eh) in eyes: 
+            cv2.rectangle(roi_color,(ex,ey),(ex+ew, ey+eh), (0,255,0), 2)
+            cv2.rectangle(roi_color,(ex,ey),(ex+ew, ey+eh), (0,255,0), 2)
+            #2 Ojos por eso dos rectangulos
+    
+    return (imagen)
         
