@@ -35,5 +35,28 @@ def detect(gray, imagen):
             cv2.rectangle(roi_color,(ex,ey),(ex+ew, ey+eh), (0,255,0), 2)
             #2 Ojos por eso dos rectangulos
     
-    return (imagen)
+    return (imagen)#Devuelve la imagen con los rectangulos dibujados en la cara
+
+#Trabajo con la webCam
+#Coge el ultimo frame de la webCam
+#0 si coges la webcam del ordenador 1 si es una webcam externa
+video_captura = cv2.VideoCapture(0)
+#Para todas las imagenes de la webCam
+while True: #Bucle infinito hasta que pulsemos q
+    #Para coger unoicamente el segundo parametro que nos da VideoCapture
+    #que es el ultimo frame del video
+    _,imagen = video_captura.read()
+    #Para coger la imagen en escala de grises
+    gray = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
+    #Resultado de la funcion detect
+    detectResult= detect(gray, imagen)
+    #Muestra las imagenes tratadas por pantalla
+    cv2.imshow('Video', detectResult)
+    #Parar el bucle infinito
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+    
+video_captura.release()
+cv2.destroyAllWindows()
+    
         
